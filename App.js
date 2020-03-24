@@ -10,8 +10,9 @@ import AppContainer from './AppContainer';
 import {createStore, applyMiddleware} from 'redux';
 import createSocketIoMiddleware from 'redux-socket.io';
 import io from 'socket.io-client';
-//const socket = io("http://18.216.129.200:3001");
-const socket = io("http://192.168.43.173:3001");
+import FlashMessage from 'react-native-flash-message';
+const socket = io("http://18.216.129.200:3001");
+//const socket = io("http://192.168.43.58:3001");
 const socketIoMiddleware = createSocketIoMiddleware(socket, "server/");
 
 // Listener from socket server.
@@ -66,6 +67,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <AppContainer />
+      <FlashMessage position="top" />
     </Provider>
     
   );

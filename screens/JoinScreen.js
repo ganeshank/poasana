@@ -10,7 +10,7 @@ export default function JoinScreen({ navigation }) {
             <Image 
             style={{flex: 1}} 
             resizeMode="contain" 
-            source={require("../assets/chat-icon.png")} 
+            source={require("../assets/chat-icon-new.png")} 
             />
             <View style={{flex: 1,justifyContent: 'space-around'}}>
                 <TextInput 
