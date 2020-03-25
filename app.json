@@ -27,8 +27,11 @@
       "supportsTablet": true
     },
     "android": {
-      "package": "com.app.poasana"
+      "package": "com.poasana.myapp",
+      "versionCode": 1,
+      "permissions": [],
+      "icon": "./assets/app-icon.png"
     },
-    "description": ""
+    "description": "This is demo app for private chat.. Version 3.0"
   }
 }

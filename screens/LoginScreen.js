@@ -25,7 +25,7 @@ export default function LoginScreen({ navigation }){
         <View style={styles.inputContainer}>
           <Image style={styles.inputIcon} source={require("../assets/mail.png")}/>
           <TextInput style={styles.inputs}
-              placeholder="Email"
+              placeholder="Username"
               keyboardType="email-address"
               value= {username}
               underlineColorAndroid='transparent'
@@ -61,7 +61,7 @@ export default function LoginScreen({ navigation }){
                     type: "success",
                 });
                 dispatch({type: "server/join",data: responseJson.username});
-                navigation.navigate("Home");
+                navigation.navigate("Home", {username: responseJson.username});
                 
               }else{
                 showMessage({

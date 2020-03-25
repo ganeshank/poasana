@@ -1,38 +1,49 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {View, Text, Image, FlatList, StyleSheet,TouchableOpacity} from 'react-native';
 import {useSelector} from 'react-redux';
 
 
 
-export default function FriendListScreen({navigation}) {
+export default function FriendListScreen({navigation, route}) {
     const {itemContainerStyle, avatarImageStyle, avatarNameViewStyle} = styles;
     const usersOnline = useSelector(state => state.usersOnline);
+    const nameUser = route.params.username;
+    const [nouser, setNouser] = useState(true);
 
     return (
         <View style={{flex: 1}}>
             <FlatList 
                 data={usersOnline}
                 renderItem={({item}) => {
-                    return (
-                        <TouchableOpacity onPress={() => {
-                            navigation.navigate("Chat",
-                            {name:item.username, userId: item.userId})
-                        }}>
-                        <View style={itemContainerStyle}>
-                            <Image style={avatarImageStyle}
-                                source={{uri: item.avatar}}
-                            />
-                            <View style={avatarNameViewStyle}>
-                                <Text style={{fontSize: 20
-                                }}>{item.username}</Text>
+                    if(nameUser != item.username){
+                        setNouser(false);
+                        return (
+                        
+                            <TouchableOpacity onPress={() => {
+                                navigation.navigate("Chat",
+                                {name:item.username, userId: item.userId})
+                            }}>
+                            <View style={itemContainerStyle}>
+                                <Image style={avatarImageStyle}
+                                    source={{uri: item.avatar}}
+                                />
+                                <View style={avatarNameViewStyle}>
+                                    <Text style={{fontSize: 20
+                                    }}>{item.username}</Text>
+                                </View>
                             </View>
-                        </View>
-                        </TouchableOpacity>
-                    )
+                            </TouchableOpacity>
+                        ) 
+                    }
+                    
                 }} 
                 keyExtractor={item => item.userId}
                 />
+                <View style={{justifyContent: 'center', alignItems: 'center', flex:1}}>
+                {nouser ? (<Text>No other person is online currently!!</Text>): null }
+                </View>
         </View>
+        
 
     )
 }

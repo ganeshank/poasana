@@ -12,7 +12,7 @@ const Stack = createStackNavigator();
 export default function App() {
     return (
         <NavigationContainer>
-          <Stack.Navigator initialRouteName="Signup" 
+          <Stack.Navigator initialRouteName="Login" 
             screenOptions={{
               gestureEnabled: true
             }}
