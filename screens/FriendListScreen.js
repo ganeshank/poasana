@@ -15,7 +15,7 @@ export default function FriendListScreen({navigation, route}) {
             <FlatList 
                 data={usersOnline}
                 renderItem={({item}) => {
-                    if(nameUser != item.username){
+                    // if(nameUser != item.username){
                         setNouser(false);
                         return (
                         
@@ -27,6 +27,13 @@ export default function FriendListScreen({navigation, route}) {
                                 <Image style={avatarImageStyle}
                                     source={{uri: item.avatar}}
                                 />
+                                {item.isOnline == 1 ? 
+                                <Image style={{width: 20, height: 20}}
+                                    source={require("../assets/online.png")}
+                                />
+                                :<Image style={{width: 20, height: 20}}
+                                source={require("../assets/offline.png")}
+                                />}
                                 <View style={avatarNameViewStyle}>
                                     <Text style={{fontSize: 20
                                     }}>{item.username}</Text>
@@ -34,7 +41,7 @@ export default function FriendListScreen({navigation, route}) {
                             </View>
                             </TouchableOpacity>
                         ) 
-                    }
+                   // }
                     
                 }} 
                 keyExtractor={item => item.userId}
@@ -49,7 +56,8 @@ export default function FriendListScreen({navigation, route}) {
 }
 
 const styles= StyleSheet.create({
-    itemContainerStyle: {flex:1, flexDirection: "row"},
+    itemContainerStyle: {flex:1, flexDirection: "row", backgroundColor: "skyblue",
+    borderWidth: 1},
     avatarImageStyle: {width:100, height: 100, borderRadius: 50},
     avatarNameViewStyle: {
         flex:1,

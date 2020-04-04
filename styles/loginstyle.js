@@ -46,5 +46,11 @@ export default {
   },
   loginText: {
     color: 'white',
+  },
+  loginBtn: {
+    backgroundColor: '#4267b2',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20
   }
 };

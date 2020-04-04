@@ -8,19 +8,94 @@ import {
   Button,
   TouchableHighlight,
   Image,
-  Alert
+  Alert,
+  AsyncStorage,
+  TouchableOpacity
 } from 'react-native';
 import {useDispatch} from 'react-redux';
 import { showMessage, hideMessage } from "react-native-flash-message";
+import * as Facebook from 'expo-facebook';
+import Spinner from 'react-native-loading-spinner-overlay';
+
 
 
 export default function LoginScreen({ navigation }){
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoggedin, setLoggedinStatus] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [isImageLoading, setImageLoadStatus] = useState(false);
+  const [spinnerEnabled, setSpinnerEnabled] = useState(false);
+
+  facebookLogIn = async () => {
+    await Facebook.initializeAsync('651749515391220');
+    try {
+      const {
+        type,
+        token,
+        expires,
+        permissions,
+        declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ['public_profile'],
+      });
+      if (type === 'success') {
+        // Get the user's name using Facebook's Graph API
+        fetch(`https://graph.facebook.com/me?access_token=${token}&fields=id,name,email,picture.height(500)`)
+          .then(response => response.json())
+          .then(data => {
+            setLoggedinStatus(true);
+            setUserData(data);
+            console.log(data);
+            const fbUsername = data.name;
+            setSpinnerEnabled(true);
+            fetch('https://poasana.000webhostapp.com/api/facebooklogin.php', {
+                method: 'POST',
+                body: "name="+data.name+"&id="+data.id,
+                headers: new Headers({
+                  'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
+                })
+              })
+              .then(response => response.json())
+              .then(data => {
+                setSpinnerEnabled(false);
+                dispatch({type: "server/user_login",data: fbUsername});
+                storeToken(fbUsername);
+                navigation.navigate("Dashboard");
+              })
+              .catch(e => {
+                console.log(e);
+                setSpinnerEnabled(false);
+                dispatch({type: "server/user_login",data: fbUsername});
+                storeToken(fbUsername);
+                navigation.navigate("Dashboard");
+              })
+
+          })
+          .catch(e => console.log(e))
+      } else {
+        // type === 'cancel'
+      }
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
+  }
+
+  logout = () => {
+    setLoggedinStatus(false);
+    setUserData(null);
+    setImageLoadStatus(false);
+  }
+
 
   return (
     <View style={styles.container}>
+        <Spinner
+          visible={spinnerEnabled}
+          textContent={'Loading...'}
+          textStyle={{color: '#000'}}
+        />
         <Image style={{width: 150, height: 150}} source={require("../assets/chat-icon-new.png")}/>
         <View style={styles.inputContainer}>
           <Image style={styles.inputIcon} source={require("../assets/mail.png")}/>
@@ -60,8 +135,11 @@ export default function LoginScreen({ navigation }){
                     description: "You will be redirecting to home page..",
                     type: "success",
                 });
-                dispatch({type: "server/join",data: responseJson.username});
-                navigation.navigate("Home", {username: responseJson.username});
+                dispatch({type: "server/user_login",data: responseJson.username});
+                storeToken(responseJson.username);
+                //getToken();
+                // navigation.navigate("Home", {username: responseJson.username});
+                navigation.navigate("Dashboard");
                 
               }else{
                 showMessage({
@@ -78,6 +156,10 @@ export default function LoginScreen({ navigation }){
           <Text style={styles.loginText}>Login</Text>
         </TouchableHighlight>
 
+        <TouchableOpacity style={styles.loginBtn} onPress={facebookLogIn}>
+          <Text style={{ color: "#fff" }}>Login with Facebook</Text>
+        </TouchableOpacity>
+
         <TouchableHighlight style={styles.buttonContainer} onPress={() => this.onClickListener('restore_password')}>
             <Text>Forgot your password?</Text>
         </TouchableHighlight>
@@ -87,5 +169,13 @@ export default function LoginScreen({ navigation }){
         </TouchableHighlight>
       </View>
   )
+ 
+  async function storeToken(user) {
+    try {
+       await AsyncStorage.setItem("userData", user);
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+  
 }
-

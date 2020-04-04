@@ -11,8 +11,9 @@ import {createStore, applyMiddleware} from 'redux';
 import createSocketIoMiddleware from 'redux-socket.io';
 import io from 'socket.io-client';
 import FlashMessage from 'react-native-flash-message';
-const socket = io("http://18.216.129.200:3001");
-//const socket = io("http://192.168.43.58:3001");
+
+//const socket = io("http://18.216.129.200:3001");
+const socket = io("http://192.168.43.58:3001");
 const socketIoMiddleware = createSocketIoMiddleware(socket, "server/");
 
 // Listener from socket server.
@@ -22,6 +23,7 @@ function reducer(state = {conversations: {}}, action){
     case "users_online":
       const conversations = {...state.conversations};
       const usersOnline = action.data;
+      console.log(usersOnline);
       for(let i = 0;i <usersOnline.length; i++){
         const userId = usersOnline[i].userId;
         if(conversations[userId] === undefined){
@@ -63,7 +65,6 @@ store.subscribe(() => {
 })
 
 export default function App() {
-
   return (
     <Provider store={store}>
       <AppContainer />
