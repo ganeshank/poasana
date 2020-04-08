@@ -61,14 +61,14 @@ export default function LoginScreen({ navigation }){
               .then(data => {
                 setSpinnerEnabled(false);
                 dispatch({type: "server/user_login",data: fbUsername});
-                storeToken(fbUsername);
+                storeToken(fbUsername, data.userId);
                 navigation.navigate("Dashboard");
               })
               .catch(e => {
                 console.log(e);
                 setSpinnerEnabled(false);
                 dispatch({type: "server/user_login",data: fbUsername});
-                storeToken(fbUsername);
+                storeToken(fbUsername, '');
                 navigation.navigate("Dashboard");
               })
 
@@ -136,7 +136,7 @@ export default function LoginScreen({ navigation }){
                     type: "success",
                 });
                 dispatch({type: "server/user_login",data: responseJson.username});
-                storeToken(responseJson.username);
+                storeToken(responseJson.username, responseJson.userId);
                 //getToken();
                 // navigation.navigate("Home", {username: responseJson.username});
                 navigation.navigate("Dashboard");
@@ -170,9 +170,10 @@ export default function LoginScreen({ navigation }){
       </View>
   )
  
-  async function storeToken(user) {
+  async function storeToken(username, userId) {
     try {
-       await AsyncStorage.setItem("userData", user);
+       await AsyncStorage.setItem("userData", username);
+       await AsyncStorage.setItem("userId", userId);
     } catch (error) {
       console.log("Something went wrong", error);
     }

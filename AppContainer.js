@@ -74,7 +74,7 @@ export default function App(){
                 },
               }}/>
             <Stack.Screen name="Chat" component={ChatScreen} 
-            options={({ route }) => ({ title: route.params.name, headerTitle: props => <LogoTitle title="Chat" {...props} />,
+            options={({ route }) => ({ title: route.params.name, headerTitle: props => <LogoTitle title={route.params.name} {...props} />,
               headerStyle: {
                 backgroundColor: '#007acc',
               },

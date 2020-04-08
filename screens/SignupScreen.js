@@ -80,6 +80,7 @@ export default function SignupScreen({ navigation }){
                     description: "Thank you! You are successfully signup!!",
                     type: "success",
                 });
+                dispatch({type: "server/user_signup",data: responseJson.result});
                 navigation.navigate("Login");
               }else{
                 showMessage({

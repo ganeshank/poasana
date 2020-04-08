@@ -15,9 +15,19 @@ export default function DashboardScreen({navigation}){
                     async function getToken() {
                         try {
                           let userData = await AsyncStorage.getItem("userData");
+                          let userId = await AsyncStorage.getItem("userId");
                           //console.log("userData---", userData);
                           dispatch({type: "server/join",data: userData});
-                          navigation.navigate("Home", {username: userData});
+
+                          fetch('https://poasana.000webhostapp.com/api/getchat.php?id='+userId)
+                            .then(response => response.json())
+                            .then(data => {
+                                navigation.navigate("Home", {username: userData, chatconversations: data});
+                            })
+                            .catch(e => {
+                                navigation.navigate("Home", {username: userData, chatconversations: {}});
+                            })
+
                         } catch (error) {
                           console.log("Something went wrong", error);
                         }

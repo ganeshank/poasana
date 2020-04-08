@@ -8,6 +8,7 @@ export default function FriendListScreen({navigation, route}) {
     const {itemContainerStyle, avatarImageStyle, avatarNameViewStyle} = styles;
     const usersOnline = useSelector(state => state.usersOnline);
     const nameUser = route.params.username;
+    const chatconversations = route.params.chatconversations;
     const [nouser, setNouser] = useState(true);
 
     return (
@@ -15,13 +16,18 @@ export default function FriendListScreen({navigation, route}) {
             <FlatList 
                 data={usersOnline}
                 renderItem={({item}) => {
-                    // if(nameUser != item.username){
+                     if(nameUser != item.username){
                         setNouser(false);
                         return (
                         
                             <TouchableOpacity onPress={() => {
+                                let chatData = [];
+                                console.log("1111133--", chatconversations.hasOwnProperty(item.userId));
+                                if(chatconversations.hasOwnProperty(item.userId)){
+                                    chatData = chatconversations[item.userId].messages;
+                                }
                                 navigation.navigate("Chat",
-                                {name:item.username, userId: item.userId})
+                                {name:item.username, userId: item.userId, chat: chatData})
                             }}>
                             <View style={itemContainerStyle}>
                                 <Image style={avatarImageStyle}
@@ -41,14 +47,11 @@ export default function FriendListScreen({navigation, route}) {
                             </View>
                             </TouchableOpacity>
                         ) 
-                   // }
+                    }
                     
                 }} 
                 keyExtractor={item => item.userId}
                 />
-                <View style={{justifyContent: 'center', alignItems: 'center', flex:1}}>
-                {nouser ? (<Text>No other person is online currently!!</Text>): null }
-                </View>
         </View>
         
 
