@@ -21,13 +21,13 @@ export default function FriendListScreen({navigation, route}) {
                         return (
                         
                             <TouchableOpacity onPress={() => {
-                                let chatData = [];
-                                console.log("1111133--", chatconversations.hasOwnProperty(item.userId));
-                                if(chatconversations.hasOwnProperty(item.userId)){
-                                    chatData = chatconversations[item.userId].messages;
-                                }
+                                // let chatData = [];
+                                // console.log("1111133--", chatconversations.hasOwnProperty(item.userId));
+                                // if(chatconversations.hasOwnProperty(item.userId)){
+                                //     chatData = chatconversations[item.userId].messages;
+                                // }
                                 navigation.navigate("Chat",
-                                {name:item.username, userId: item.userId, chat: chatData})
+                                {name:item.username, userId: item.userId})
                             }}>
                             <View style={itemContainerStyle}>
                                 <Image style={avatarImageStyle}

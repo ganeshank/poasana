@@ -52,6 +52,11 @@ function reducer(state = {conversations: {}}, action){
       };
     case "self_user":
       return {...state, selfUser: action.data};
+
+    case "conversation":
+      const chatConversations = action.data;
+      console.log("ssssss");
+      return {...state, conversations:chatConversations};
     default:
       return state;
   }

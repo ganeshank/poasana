@@ -10,8 +10,12 @@ export default function ChatScreen({route}) {
     const conversations = useSelector(state => state.conversations);
     const userId = route.params.userId;
     const username = route.params.name;
-    const messages = route.params.chat;
-    //const messages = conversations[userId].messages;
+    //const messages = route.params.chat;
+    console.log(conversations);
+    let messages = [];
+    if(conversations.hasOwnProperty(userId)){
+        messages = conversations[userId].messages;
+    }
     
     return (
         <View style={{flex: 1}}>
@@ -53,6 +57,7 @@ export default function ChatScreen({route}) {
                 }}
                 user={{
                 _id: selfUser.userId,
+                name: "Ganeshan"
                 }}
             /> 
             
