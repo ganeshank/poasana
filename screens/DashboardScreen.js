@@ -22,7 +22,7 @@ export default function DashboardScreen({navigation}){
                           fetch('https://poasana.000webhostapp.com/api/getchat.php?id='+userId)
                             .then(response => response.json())
                             .then(data => {
-                                console.log("33333");
+                              //  console.log("33333");
                                 dispatch({type: 'conversation', data: data });
                                 navigation.navigate("Home", {username: userData, chatconversations: data});
                                 
@@ -41,9 +41,19 @@ export default function DashboardScreen({navigation}){
                     Private Chat
                 </Text>
             </TouchableHighlight>
-            <Text style={{backgroundColor: 'skyblue', width: 200, height: 100, textAlign: 'center', textAlignVertical: 'center', margin: 5}}>
-               Public Chat
-            </Text>
+            <TouchableHighlight 
+                onPress={()=>{
+                    getToken();
+                    async function getToken() {
+                        const userId = await AsyncStorage.getItem("userId");
+                        navigation.navigate("public", {id: userId});
+                    }
+                    
+                }}>
+                <Text style={{backgroundColor: 'skyblue', width: 200, height: 100, textAlign: 'center', textAlignVertical: 'center', margin: 5}}>
+                Public Chat
+                </Text>
+            </TouchableHighlight>
             
         </View>
     )

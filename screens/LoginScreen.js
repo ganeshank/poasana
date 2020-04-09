@@ -28,6 +28,28 @@ export default function LoginScreen({ navigation }){
   const [isImageLoading, setImageLoadStatus] = useState(false);
   const [spinnerEnabled, setSpinnerEnabled] = useState(false);
 
+  React.useEffect(() => {
+    // Fetch the token from storage then navigate to our appropriate place
+    const bootstrapAsync = async () => {
+      let userToken;
+
+      try {
+        userToken = await AsyncStorage.getItem('userData');
+      } catch (e) {
+        // Restoring token failed
+      }
+
+      // After restoring token, we may need to validate it in production apps
+
+      // This will switch to the App screen or Auth screen and this loading
+      // screen will be unmounted and thrown away.
+      console.log("mmmm", userToken);
+      dispatch({ type: 'assigntoken', data: userToken });
+    };
+
+    bootstrapAsync();
+  }, []);
+
   facebookLogIn = async () => {
     await Facebook.initializeAsync('651749515391220');
     try {
@@ -60,9 +82,11 @@ export default function LoginScreen({ navigation }){
               .then(response => response.json())
               .then(data => {
                 setSpinnerEnabled(false);
+                dispatch({type: "assigntoken",data: fbUsername});
                 dispatch({type: "server/user_login",data: fbUsername});
                 storeToken(fbUsername, data.userId);
-                navigation.navigate("Dashboard");
+                //setTimeout(() => {navigation.navigate("Dashboard");}, 3000)
+                
               })
               .catch(e => {
                 console.log(e);
@@ -135,11 +159,12 @@ export default function LoginScreen({ navigation }){
                     description: "You will be redirecting to home page..",
                     type: "success",
                 });
+                dispatch({type: "assigntoken",data: responseJson.username});
                 dispatch({type: "server/user_login",data: responseJson.username});
                 storeToken(responseJson.username, responseJson.userId);
                 //getToken();
                 // navigation.navigate("Home", {username: responseJson.username});
-                navigation.navigate("Dashboard");
+                //navigation.navigate("Dashboard");
                 
               }else{
                 showMessage({

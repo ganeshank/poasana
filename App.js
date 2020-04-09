@@ -17,13 +17,13 @@ const socket = io("http://192.168.43.58:3001");
 const socketIoMiddleware = createSocketIoMiddleware(socket, "server/");
 
 // Listener from socket server.
-function reducer(state = {conversations: {}}, action){
+function reducer(state = {conversations: {}, isSignedIn:null, publicConversations: {messages:[]}}, action){
   switch(action.type){
    
     case "users_online":
       const conversations = {...state.conversations};
       const usersOnline = action.data;
-      console.log(usersOnline);
+      //console.log(usersOnline);
       for(let i = 0;i <usersOnline.length; i++){
         const userId = usersOnline[i].userId;
         if(conversations[userId] === undefined){
@@ -36,7 +36,7 @@ function reducer(state = {conversations: {}}, action){
       return {...state, usersOnline, conversations};
     case "private_message":
       const conversationId = action.data.conversationId;
-      console.log("data1 ", conversationId);
+     // console.log("data1 ", conversationId);
       return {
         ...state,
         conversations: {
@@ -57,19 +57,38 @@ function reducer(state = {conversations: {}}, action){
       const chatConversations = action.data;
       console.log("ssssss");
       return {...state, conversations:chatConversations};
+    case "assigntoken":
+      const issignedin = action.data;
+      console.log("iiiiiiiii--", issignedin);
+      return {...state, isSignedIn:issignedin};
     default:
       return state;
+    case "public_message":
+      const senderId = action.data.senderId;
+      console.log("public", action.data.message);
+      return {
+        ...state,
+        publicConversations: {
+            messages: [
+              action.data.message,
+              ...state.publicConversations.messages
+            ]
+        }
+      };
   }
 }
+
 
 const store = applyMiddleware(socketIoMiddleware)(createStore)(reducer);
 
 //Whenever a state changes.
 store.subscribe(() => {
-  console.log("new state", store.getState());
+ // console.log("new state", store.getState());
 })
 
 export default function App() {
+  
+
   return (
     <Provider store={store}>
       <AppContainer />
