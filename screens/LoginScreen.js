@@ -34,7 +34,7 @@ export default function LoginScreen({ navigation }){
       let userToken;
 
       try {
-        userToken = await AsyncStorage.getItem('userId');
+        userToken = await AsyncStorage.getItem('userData');
       } catch (e) {
         // Restoring token failed
       }
@@ -45,6 +45,9 @@ export default function LoginScreen({ navigation }){
       // screen will be unmounted and thrown away.
       console.log("mmmm", userToken);
       dispatch({ type: 'assigntoken', data: userToken });
+      if(userToken !== null && userToken !== undefined){
+        dispatch({type: "server/user_login",data: userToken});
+      }
     };
 
     bootstrapAsync();

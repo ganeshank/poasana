@@ -30,7 +30,7 @@ export default function DashboardScreen({navigation}){
                           fetch('https://poasana.000webhostapp.com/api/getchat.php?id='+userId)
                             .then(response => response.json())
                             .then(data => {
-                              //  console.log("33333");
+                                console.log("33333");
                                 dispatch({type: 'conversation', data: data });
                                 navigation.navigate("Home", {username: userData, chatconversations: data});
                                 setSpinnerEnabled(false);

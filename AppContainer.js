@@ -159,6 +159,7 @@ export default function App({navigation}){
                 [
                   {text: 'Cancel', onPress: () => {return null}},
                   {text: 'Confirm', onPress: () => {
+                    dispatch({type: 'server/logout', data: "" });
                     AsyncStorage.clear();
                     props.navigation.navigate('Login')
                   }},
