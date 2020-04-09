@@ -9,7 +9,8 @@ export default function PublicChatScreen({route}) {
    // const selfUser= useSelector(state => state.selfUser);
     const conversations = useSelector(state => state.publicConversations);
     const userId = route.params.id;
-    //const username = route.params.name;
+    const username = route.params.name;
+    console.log("hhh-",conversations);
     //const messages = route.params.chat;
     let messages = conversations.messages;
     
@@ -21,6 +22,7 @@ export default function PublicChatScreen({route}) {
                 messages={messages}
                 onSend={messages => {
                     console.log("message-", messages[0]);
+                    messages[0].user.name = username;
                     dispatch(
                         {type: 'public_message', 
                             data: {
@@ -40,22 +42,22 @@ export default function PublicChatScreen({route}) {
                             }
                         }
                     );
-                    // console.log("Message sent!!!");
-                    // fetch('https://poasana.000webhostapp.com/api/setchat.php', {
-                    //     method: 'POST',
-                    //     body: "message="+messages[0].text+"&sender="+selfUser.userId+"&receiver="+userId,
-                    //     headers: new Headers({
-                    //         'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
-                    //     })
-                    // })
-                    // .catch((error) => {
-                    //     console.error("Error for save chat data-",error);
-                    // });
+                    
+                    fetch('https://poasana.000webhostapp.com/api/setpublicchat.php', {
+                        method: 'POST',
+                        body: "message="+messages[0].text+"&sender="+userId,
+                        headers: new Headers({
+                            'Content-Type': 'application/x-www-form-urlencoded', // <-- Specifying the Content-Type
+                        })
+                    })
+                    .catch((error) => {
+                        console.error("Error for save chat data-",error);
+                    });
 
                 }}
                 user={{
-                _id: '15',
-                name: "Ganeshan"
+                _id: userId,
+                name: username
                 }}
             /> 
             

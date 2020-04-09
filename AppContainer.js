@@ -12,6 +12,7 @@ import DashboardScreen from './screens/DashboardScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import { useSelector, useDispatch } from 'react-redux';
 import PublicChatScreen from './screens/PublicChatScreen';
+import PublicRoomScreen from './screens/PublicRoomScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -49,6 +50,24 @@ export default function App({navigation}){
             <Stack.Screen name="public" component={PublicChatScreen} 
               options={{
                 headerTitle: props => <LogoTitle title="Public Chat Room" {...props} navigation={navigation}/>,
+                headerStyle: {
+                  backgroundColor: '#007acc',
+                },
+                headerLeft: ()=> {
+                  <Button
+                    onPress={() => alert('This is a button!')}
+                    title="Info"
+                    color="#007acc"
+                  />
+                },
+                headerTintColor: '#fff',
+                headerTitleStyle: {
+                  fontWeight: 'bold',
+                },
+              }}/>
+            <Stack.Screen name="publicroom" component={PublicRoomScreen} 
+              options={{
+                headerTitle: props => <LogoTitle title="Public Room" {...props} navigation={navigation}/>,
                 headerStyle: {
                   backgroundColor: '#007acc',
                 },

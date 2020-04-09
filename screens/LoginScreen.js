@@ -34,7 +34,7 @@ export default function LoginScreen({ navigation }){
       let userToken;
 
       try {
-        userToken = await AsyncStorage.getItem('userData');
+        userToken = await AsyncStorage.getItem('userId');
       } catch (e) {
         // Restoring token failed
       }
@@ -143,6 +143,7 @@ export default function LoginScreen({ navigation }){
 
         <TouchableHighlight style={[styles.buttonContainer, styles.loginButton]} 
           onPress={() => {
+            setSpinnerEnabled(true);
             fetch('https://poasana.000webhostapp.com/api/login.php', {
               method: 'POST',
               body: "username="+username+"&password="+password,
@@ -173,6 +174,7 @@ export default function LoginScreen({ navigation }){
                   type: "danger",
               });
               }
+              setSpinnerEnabled(false);
             })
             .catch((error) => {
               console.error(error);

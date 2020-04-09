@@ -75,6 +75,10 @@ function reducer(state = {conversations: {}, isSignedIn:null, publicConversation
             ]
         }
       };
+    case "public_conversation":
+      const publicConv = action.data;
+      console.log("ssssss");
+      return {...state, publicConversations:publicConv};
   }
 }
 
