@@ -10,7 +10,7 @@ export default function DashboardScreen({navigation}){
     const [spinnerEnabled, setSpinnerEnabled] = useState(false);
     
     return (
-        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', height: 100, backgroundColor: 'powderblue'}}>
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center', height: 100, backgroundColor: '#E8E8E8'}}>
             <Spinner
             visible={spinnerEnabled}
             textContent={'Loading...'}

@@ -46,7 +46,7 @@ export default function PublicRoomScreen({navigation, route}) {
 }
 
 const styles= StyleSheet.create({
-    itemContainerStyle: {flex:1, flexDirection: "row", backgroundColor: "skyblue",
+    itemContainerStyle: {flex:1, flexDirection: "row", backgroundColor: "#E8E8E8",
     borderWidth: 1, height: 100, textAlign: 'center'},
     avatarImageStyle: {width:100, height: 100, borderRadius: 50},
     avatarNameViewStyle: {

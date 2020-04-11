@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Poasana App",
-    "slug": "poasana1",
+    "slug": "poasana4",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
@@ -32,6 +32,6 @@
       "permissions": [],
       "icon": "./assets/app-icon.png"
     },
-    "description": "This is demo app for private chat.. Version 3.0"
+    "description": "This is demo app for private chat.. Version 4.0"
   }
 }

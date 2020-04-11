@@ -53,7 +53,7 @@ export default function App({navigation}){
                 headerStyle: {
                   backgroundColor: '#007acc',
                 },
-                headerLeft: ()=> {
+                headerRight: ()=> {
                   <Button
                     onPress={() => alert('This is a button!')}
                     title="Info"
@@ -71,7 +71,7 @@ export default function App({navigation}){
                 headerStyle: {
                   backgroundColor: '#007acc',
                 },
-                headerLeft: ()=> {
+                headerRight: ()=> {
                   <Button
                     onPress={() => alert('This is a button!')}
                     title="Info"
@@ -89,7 +89,7 @@ export default function App({navigation}){
               headerStyle: {
                 backgroundColor: '#007acc',
               },
-              headerLeft: ()=> {
+              headerRight: ()=> {
                 <Button
                   onPress={() => alert('This is a button!')}
                   title="Info"
@@ -146,12 +146,8 @@ export default function App({navigation}){
     const dispatch = useDispatch();
     return (
       <View style={{flex: 1, flexDirection: 'row'}}>
-      <Image
-        style={{ width: 30, height: 30 }}
-        source={require('./assets/menubar.png')}
-      />
-      <Text style={{textAlignVertical: 'center', fontSize: 20, color: 'white', paddingLeft: 30}}>{props.title}</Text>
-
+      <Text style={{textAlignVertical: 'center', fontSize: 20, color: 'white', paddingLeft: 0}}>{props.title}</Text>
+      
       <TouchableOpacity onPress={()=>
               Alert.alert(
                 'Log out',

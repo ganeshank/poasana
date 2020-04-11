@@ -12,7 +12,7 @@ export default function FriendListScreen({navigation, route}) {
     const [nouser, setNouser] = useState(true);
 
     return (
-        <View style={{flex: 1}}>
+        <View style={{flex: 1,backgroundColor: "#E8E8E8"}}>
             <FlatList 
                 data={usersOnline}
                 renderItem={({item}) => {
@@ -34,10 +34,10 @@ export default function FriendListScreen({navigation, route}) {
                                     source={{uri: item.avatar}}
                                 />
                                 {item.isOnline == 1 ? 
-                                <Image style={{width: 20, height: 20}}
+                                <Image style={{width: 15, height: 15}}
                                     source={require("../assets/online.png")}
                                 />
-                                :<Image style={{width: 20, height: 20}}
+                                :<Image style={{width: 15, height: 15}}
                                 source={require("../assets/offline.png")}
                                 />}
                                 <View style={avatarNameViewStyle}>
@@ -59,9 +59,9 @@ export default function FriendListScreen({navigation, route}) {
 }
 
 const styles= StyleSheet.create({
-    itemContainerStyle: {flex:1, flexDirection: "row", backgroundColor: "skyblue",
-    borderWidth: 1},
-    avatarImageStyle: {width:100, height: 100, borderRadius: 50},
+    itemContainerStyle: {flex:1, flexDirection: "row", backgroundColor: "#E8E8E8",
+    borderWidth: 0.4},
+    avatarImageStyle: {width:60, height: 60, borderRadius: 10},
     avatarNameViewStyle: {
         flex:1,
         justifyContent:"center",
