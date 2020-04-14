@@ -18,7 +18,7 @@ const socket = io("http://192.168.43.58:3001");
 const socketIoMiddleware = createSocketIoMiddleware(socket, "server/");
 
 // Listener from socket server.
-function reducer(state = {conversations: {}, isSignedIn:null, publicConversations: {messages:[]}}, action){
+function reducer(state = {conversations: {}, isSignedIn:null, socket:null, fromLogin:true, publicConversations: {messages:[]}}, action){
   switch(action.type){
    
     case "users_online":
@@ -84,6 +84,14 @@ function reducer(state = {conversations: {}, isSignedIn:null, publicConversation
       const usersCurrent = action.data;
       
       return {...state, usersOnline};
+    case "socket_update":
+      const socket = action.data;
+      
+      return {...state, socket:socket};
+    case "login_flag":
+      const flag = action.data;
+      
+      return {...state, fromLogin:flag};
   }
 }
 

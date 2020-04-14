@@ -40,104 +40,75 @@ export default function App({navigation}){
 }
 
  function Root({navigation}) {
+   const dispatch = useDispatch();
     return (
           <Stack.Navigator initialRouteName="Dashboard" 
             screenOptions={{
-              gestureEnabled: true
+              gestureEnabled: true,
+              
             }}
           >
             
             <Stack.Screen name="public" component={PublicChatScreen} 
               options={{
-                headerTitle: props => <LogoTitle title="Public Chat Room" {...props} navigation={navigation}/>,
+                headerTitle: "Public Chat Screen",
                 headerStyle: {
                   backgroundColor: '#007acc',
-                },
-                headerRight: ()=> {
-                  <Button
-                    onPress={() => alert('This is a button!')}
-                    title="Info"
-                    color="#007acc"
-                  />
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
                   fontWeight: 'bold',
                 },
+                headerRight: props =><LogoTitle {...props} />
               }}/>
             <Stack.Screen name="publicroom" component={PublicRoomScreen} 
               options={{
-                headerTitle: props => <LogoTitle title="Public Room" {...props} navigation={navigation}/>,
+                headerTitle: "Public Chat Room",
                 headerStyle: {
                   backgroundColor: '#007acc',
-                },
-                headerRight: ()=> {
-                  <Button
-                    onPress={() => alert('This is a button!')}
-                    title="Info"
-                    color="#007acc"
-                  />
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
                   fontWeight: 'bold',
                 },
+                headerRight: props =><LogoTitle {...props} />
               }}/>
             <Stack.Screen name="Home" component={FriendListScreen} 
             options={{
-              headerTitle: props => <LogoTitle title="Friends" {...props} navigation={navigation}/>,
+              headerTitle: "Friends",
               headerStyle: {
                 backgroundColor: '#007acc',
-              },
-              headerRight: ()=> {
-                <Button
-                  onPress={() => alert('This is a button!')}
-                  title="Info"
-                  color="#007acc"
-                />
               },
               headerTintColor: '#fff',
               headerTitleStyle: {
                 fontWeight: 'bold',
               },
+              headerRight: props =><LogoTitle {...props} />
             }}/>
-            <Stack.Screen name="Login" component={LoginScreen} />
-            <Stack.Screen name="Signup" component={SignupScreen} />
             <Stack.Screen name="Profile" component={ProfileScreen} />
             <Stack.Screen name="Dashboard" component={DashboardScreen} 
               options={{
-                headerTitle: props => <LogoTitle title="Dashboard" {...props} navigation={navigation}/>,
+                headerTitle: "Dashboard",
                 headerStyle: {
                   backgroundColor: '#007acc',
-                },
-                headerLeft: ()=> {
-                  <Button
-                    onPress={() => alert('This is a button!')}
-                    title="Info"
-                    color="#007acc"
-                  />
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
                   fontWeight: 'bold',
                 },
+                headerRight: props =><LogoTitle {...props} />,
               }}/>
             <Stack.Screen name="Chat" component={ChatScreen} 
-            options={({ route }) => ({ title: route.params.name, headerTitle: props => <LogoTitle title={route.params.name} {...props} navigation={navigation}/>,
+            options={{ 
+              headerTitle: "Chat",
               headerStyle: {
                 backgroundColor: '#007acc',
               },
-              headerLeft: ()=> {
-                <Button
-                  onPress={() => alert('This is a button!')}
-                  title="Info"
-                  color="#007acc"
-                />
-              },
+              headerRight: props =><LogoTitle {...props} />,
               headerTintColor: '#fff',
               headerTitleStyle: {
                 fontWeight: 'bold',
-              } })}/>
+              } }}/>
           </Stack.Navigator>
     );
   }
@@ -145,26 +116,30 @@ export default function App({navigation}){
   function LogoTitle(props) {
     const dispatch = useDispatch();
     return (
-      <View style={{flex: 1, flexDirection: 'row'}}>
-      <Text style={{textAlignVertical: 'center', fontSize: 20, color: 'white', paddingLeft: 0}}>{props.title}</Text>
-      
-      <TouchableOpacity onPress={()=>
-              Alert.alert(
-                'Log out',
-                'Do you want to logout?',
-                [
-                  {text: 'Cancel', onPress: () => {return null}},
-                  {text: 'Confirm', onPress: () => {
-                    dispatch({type: 'server/logout', data: "" });
-                    AsyncStorage.clear();
-                    props.navigation.navigate('Login')
-                  }},
-                ],
-                { cancelable: false }
-              )  
+      <TouchableOpacity onPress={async ()=>
+              {
+                const getSearchList = async () => {
+                  Alert.alert(
+                    'Log out',
+                    'Do you want to logout?',
+                    [
+                      {text: 'Cancel', onPress: () => {return null}},
+                      {text: 'Confirm', onPress: async () => {
+                        await AsyncStorage.clear();
+                        dispatch({type: 'assigntoken', data: null });
+                        dispatch({type: 'login_flag', data: true });
+                        dispatch({type: 'server/logout', data: "" });
+                      }},
+                    ],
+                    { cancelable: false }
+                  )
+                };
+                getSearchList();
+              }
             }>
-              <Text style={{margin: 70,fontWeight: 'bold',color: '#fff'}}>Logout</Text>
+              <Text style={{margin: 10,fontWeight: 'bold',color: '#fff'}}>Logout</Text>
             </TouchableOpacity>
-      </View>
+
+
     );
   }

@@ -44,8 +44,8 @@ export default function LoginScreen({ navigation }){
       // This will switch to the App screen or Auth screen and this loading
       // screen will be unmounted and thrown away.
       console.log("mmmm", userToken);
-      dispatch({ type: 'assigntoken', data: userToken });
       if(userToken !== null && userToken !== undefined){
+        dispatch({ type: 'assigntoken', data: userToken });
         dispatch({type: "server/user_login",data: userToken});
       }
     };
@@ -85,9 +85,9 @@ export default function LoginScreen({ navigation }){
               .then(response => response.json())
               .then(data => {
                 setSpinnerEnabled(false);
-                dispatch({type: "assigntoken",data: fbUsername});
-                dispatch({type: "server/user_login",data: fbUsername});
                 storeToken(fbUsername, data.userId);
+                dispatch({type: "assigntoken",data: fbUsername});
+                
                 //setTimeout(() => {navigation.navigate("Dashboard");}, 3000)
                 
               })
@@ -163,21 +163,24 @@ export default function LoginScreen({ navigation }){
                     description: "You will be redirecting to home page..",
                     type: "success",
                 });
-                dispatch({type: "assigntoken",data: responseJson.username});
-                dispatch({type: "server/user_login",data: responseJson.username});
+                
+                setSpinnerEnabled(false);
                 storeToken(responseJson.username, responseJson.userId);
+                dispatch({type: "assigntoken",data: responseJson.username});
+        
                 //getToken();
                 // navigation.navigate("Home", {username: responseJson.username});
                 //navigation.navigate("Dashboard");
                 
               }else{
+                setSpinnerEnabled(false);
                 showMessage({
                   message: "Failed",
                   description: "Wrong credentials",
                   type: "danger",
               });
               }
-              setSpinnerEnabled(false);
+              
             })
             .catch((error) => {
               console.error(error);
