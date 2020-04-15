@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, AsyncStorage} from 'react-native';
+import {View, Text, StyleSheet, AsyncStorage, ImageBackground} from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import {useDispatch, useSelector} from 'react-redux';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -19,7 +19,7 @@ export default function DashboardScreen({navigation}){
                 fetch('https://poasana.000webhostapp.com/api/getallusers.php?user='+username+'&socket='+socket)
                 .then(response => response.json())
                 .then(data => {
-                    console.log("33333");
+                    //console.log("33333");
                     const users1 = Object.values(data);
                     dispatch({type: "server/join",data: {allUsers: data, username: username}});
                     // dispatch({type: 'users_online', data: users1 });
@@ -50,72 +50,71 @@ export default function DashboardScreen({navigation}){
             textContent={'Loading...'}
             textStyle={{color: '#000'}}
             />
-            <TouchableHighlight 
-                onPress={()=>{
-                    getToken();
-                    async function getToken() {
-                        try {
-                          setSpinnerEnabled(true);
-                          let userData = await AsyncStorage.getItem("userData");
-                          let userId = await AsyncStorage.getItem("userId");
-                          //console.log("userData---", userData);
-                         // dispatch({type: "server/join",data: userData});
+            <ImageBackground source={require("../assets/back1.png")} style={{flex: 1,width: '100%', height: '100%',alignItems:'center',justifyContent: "center"}}>
+                <TouchableHighlight 
+                    onPress={()=>{
+                        getToken();
+                        async function getToken() {
+                            try {
+                            setSpinnerEnabled(true);
+                            let userData = await AsyncStorage.getItem("userData");
+                            let userId = await AsyncStorage.getItem("userId");
+                            //console.log("userData---", userData);
+                            // dispatch({type: "server/join",data: userData});
 
-                          fetch('https://poasana.000webhostapp.com/api/getchat.php?id='+userId)
+                            fetch('https://poasana.000webhostapp.com/api/getchat.php?id='+userId)
+                                .then(response => response.json())
+                                .then(data => {
+                                    //console.log("33333");
+                                    dispatch({type: 'conversation', data: data });
+                                    navigation.navigate("Home", {username: userData, chatconversations: data});
+                                    setSpinnerEnabled(false);
+                                })
+                                .catch(e => {
+                                    setSpinnerEnabled(false);
+                                    navigation.navigate("Home", {username: userData, chatconversations: {}});
+                                })
+
+                            } catch (error) {
+                                setSpinnerEnabled(false);
+                            console.log("Something went wrong", error);
+                            }
+                        }
+                        //
+                    }}>
+                    <Text style={{backgroundColor: '#fff', color:'#541a6b',fontSize:20, fontWeight:'bold', width: 200, height: 100, textAlign: 'center', textAlignVertical: 'center', margin: 5}}>
+                        Private Window
+                    </Text>
+                </TouchableHighlight>
+                <TouchableHighlight 
+                    onPress={()=>{
+                        getToken();
+                        async function getToken() {
+                            setSpinnerEnabled(true);
+                            const userId = await AsyncStorage.getItem("userId");
+                            const usern = await AsyncStorage.getItem("userData");
+                            
+                            fetch('https://poasana.000webhostapp.com/api/getpublicchat.php')
                             .then(response => response.json())
                             .then(data => {
-                                console.log("33333");
-                                dispatch({type: 'conversation', data: data });
-                                navigation.navigate("Home", {username: userData, chatconversations: data});
                                 setSpinnerEnabled(false);
+                                dispatch({type: 'public_conversation', data: data });
+                                navigation.navigate("publicroom", {id: userId, name: usern});
                             })
                             .catch(e => {
                                 setSpinnerEnabled(false);
-                                navigation.navigate("Home", {username: userData, chatconversations: {}});
+                                navigation.navigate("publicroom", {id: userId, name: usern});
                             })
-
-                        } catch (error) {
-                            setSpinnerEnabled(false);
-                          console.log("Something went wrong", error);
+                            
                         }
-                    }
-                    //
-                }}>
-                <Text style={{backgroundColor: 'skyblue', width: 200, height: 100, textAlign: 'center', textAlignVertical: 'center', margin: 5}}>
-                    Private Chat
-                </Text>
-            </TouchableHighlight>
-            <TouchableHighlight 
-                onPress={()=>{
-                    getToken();
-                    async function getToken() {
-                        setSpinnerEnabled(true);
-                        const userId = await AsyncStorage.getItem("userId");
-                        const usern = await AsyncStorage.getItem("userData");
                         
-                        fetch('https://poasana.000webhostapp.com/api/getpublicchat.php')
-                        .then(response => response.json())
-                        .then(data => {
-                            setSpinnerEnabled(false);
-                            dispatch({type: 'public_conversation', data: data });
-                            navigation.navigate("publicroom", {id: userId, name: usern});
-                        })
-                        .catch(e => {
-                            setSpinnerEnabled(false);
-                            navigation.navigate("publicroom", {id: userId, name: usern});
-                        })
-                        
-                    }
-                    
-                }}>
-                <Text style={{backgroundColor: 'skyblue', width: 200, height: 100, textAlign: 'center', textAlignVertical: 'center', margin: 5}}>
-                Public Chat
-                </Text>
-            </TouchableHighlight>
-            
+                    }}>
+                    <Text style={{backgroundColor: '#FFF',color:'#541a6b', fontSize:20, fontWeight:'bold', width: 200, height: 100, textAlign: 'center', textAlignVertical: 'center', margin: 5}}>
+                    Public Window
+                    </Text>
+                </TouchableHighlight>
+            </ImageBackground>
         </View>
     )
 
-    
-    
 }

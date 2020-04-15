@@ -26,7 +26,7 @@ export default class ProfileScreen extends React.Component {
 
   componentDidMount() {
     this.getPermissionAsync();
-    console.log('hi');
+    //console.log('hi');
   }
 
   getPermissionAsync = async () => {
@@ -46,7 +46,7 @@ export default class ProfileScreen extends React.Component {
       quality: 1
     });
 
-    console.log(result);
+    //console.log(result);
 
     if (!result.cancelled) {
       this.setState({ image: result.uri });

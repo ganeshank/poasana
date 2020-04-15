@@ -117,7 +117,7 @@ export default function TestScreen({ navigation }){
             <View style={styles.registerContainer}>
                 <Text style={{color: 'gray', fontSize: 10, fontWeight:'bold'}}>have an account? </Text>
                 <TouchableHighlight onPress={() => navigation.navigate("Login")}>
-                    <Text style={{color: '#541a6b', fontSize: 12, fontWeight:'bold'}}>Login </Text>
+                    <Text style={{color: 'orange', fontSize: 12, fontWeight:'bold'}}>Login </Text>
                 </TouchableHighlight>
             </View>
            
@@ -133,7 +133,7 @@ const styles= StyleSheet.create({
     },
     headerView:{
         height: 200, width:300, 
-        backgroundColor: '#541a6b', 
+        backgroundColor: 'orange', 
         borderBottomLeftRadius:50, 
         justifyContent: 'center', 
         alignItems: 'center'
@@ -176,11 +176,11 @@ const styles= StyleSheet.create({
         alignItems:'flex-end'
     },
     forgotText:{
-        color: '#541a6b', fontSize: 12, fontWeight:'bold'
+        color: 'orange', fontSize: 12, fontWeight:'bold'
     },
     buttonContainer:{
-        borderBottomColor: '#541a6b',
-        backgroundColor: '#541a6b',
+        borderBottomColor: 'orange',
+        backgroundColor: 'orange',
         borderRadius:30,
         borderBottomWidth: 1,
         width:250,

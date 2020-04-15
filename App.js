@@ -13,8 +13,8 @@ import io from 'socket.io-client';
 import FlashMessage from 'react-native-flash-message';
 
 //const socket = io("http://18.216.129.200:3001");
-const socket = io("http://192.168.43.58:3001");
-//const socket = io("http://3.135.64.36:3001");
+//const socket = io("http://192.168.43.58:3001");
+const socket = io("http://3.135.64.36:3001");
 const socketIoMiddleware = createSocketIoMiddleware(socket, "server/");
 
 // Listener from socket server.
@@ -56,17 +56,17 @@ function reducer(state = {conversations: {}, isSignedIn:null, socket:null, fromL
 
     case "conversation":
       const chatConversations = action.data;
-      console.log("ssssss");
+      //console.log("ssssss");
       return {...state, conversations:chatConversations};
     case "assigntoken":
       const issignedin = action.data;
-      console.log("iiiiiiiii--", issignedin);
+      //console.log("iiiiiiiii--", issignedin);
       return {...state, isSignedIn:issignedin};
     default:
       return state;
     case "public_message":
       const senderId = action.data.senderId;
-      console.log("public", action.data.message);
+      //console.log("public", action.data.message);
       return {
         ...state,
         publicConversations: {
@@ -78,7 +78,7 @@ function reducer(state = {conversations: {}, isSignedIn:null, socket:null, fromL
       };
     case "public_conversation":
       const publicConv = action.data;
-      console.log("ssssss");
+      //console.log("ssssss");
       return {...state, publicConversations:publicConv};
     case "users_update":
       const usersCurrent = action.data;

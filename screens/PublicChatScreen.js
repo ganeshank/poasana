@@ -10,7 +10,7 @@ export default function PublicChatScreen({route}) {
     const conversations = useSelector(state => state.publicConversations);
     const userId = route.params.id;
     const username = route.params.name;
-    console.log("hhh-",conversations);
+    //console.log("hhh-",conversations);
     //const messages = route.params.chat;
     let messages = conversations.messages;
     
@@ -21,7 +21,7 @@ export default function PublicChatScreen({route}) {
                 renderUsernameOnMessage
                 messages={messages}
                 onSend={messages => {
-                    console.log("message-", messages[0]);
+                    //console.log("message-", messages[0]);
                     messages[0].user.name = username;
                     dispatch(
                         {type: 'public_message', 

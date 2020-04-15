@@ -11,7 +11,7 @@ export default function ChatScreen({route}) {
     const userId = route.params.userId;
     const username = route.params.name;
     //const messages = route.params.chat;
-    console.log(conversations);
+    //console.log(conversations);
     let messages = [];
     if(conversations.hasOwnProperty(userId)){
         messages = conversations[userId].messages;
@@ -42,7 +42,7 @@ export default function ChatScreen({route}) {
                             }
                         }
                     );
-                    console.log("Message sent!!!");
+                    //console.log("Message sent!!!");
                     fetch('https://poasana.000webhostapp.com/api/setchat.php', {
                         method: 'POST',
                         body: "message="+messages[0].text+"&sender="+selfUser.userId+"&receiver="+userId,

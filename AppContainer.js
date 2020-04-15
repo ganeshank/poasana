@@ -13,6 +13,7 @@ import ProfileScreen from './screens/ProfileScreen';
 import { useSelector, useDispatch } from 'react-redux';
 import PublicChatScreen from './screens/PublicChatScreen';
 import PublicRoomScreen from './screens/PublicRoomScreen';
+import TestScreen from './screens/TestScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -24,12 +25,13 @@ export default function App({navigation}){
     
     <NavigationContainer>
       {isSignedIn==null?(
-        <Stack.Navigator initialRouteName="Login">
+        <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false}}>
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Signup" component={SignupScreen} />
+          <Stack.Screen name="Test" component={TestScreen} />
         </Stack.Navigator>
       ):(
-        <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Navigator initialRouteName="Home" >
           <Drawer.Screen name="Home" component={Root} />
           <Drawer.Screen name="Profile" component={ProfileScreen} />
         </Drawer.Navigator>
@@ -53,7 +55,7 @@ export default function App({navigation}){
               options={{
                 headerTitle: "Public Chat Screen",
                 headerStyle: {
-                  backgroundColor: '#007acc',
+                  backgroundColor: '#541a6b',
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
@@ -65,7 +67,7 @@ export default function App({navigation}){
               options={{
                 headerTitle: "Public Chat Room",
                 headerStyle: {
-                  backgroundColor: '#007acc',
+                  backgroundColor: '#541a6b',
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
@@ -77,7 +79,7 @@ export default function App({navigation}){
             options={{
               headerTitle: "Friends",
               headerStyle: {
-                backgroundColor: '#007acc',
+                backgroundColor: '#541a6b',
               },
               headerTintColor: '#fff',
               headerTitleStyle: {
@@ -90,7 +92,7 @@ export default function App({navigation}){
               options={{
                 headerTitle: "Dashboard",
                 headerStyle: {
-                  backgroundColor: '#007acc',
+                  backgroundColor: '#541a6b',
                 },
                 headerTintColor: '#fff',
                 headerTitleStyle: {
@@ -99,16 +101,16 @@ export default function App({navigation}){
                 headerRight: props =><LogoTitle {...props} />,
               }}/>
             <Stack.Screen name="Chat" component={ChatScreen} 
-            options={{ 
-              headerTitle: "Chat",
+            options={({ route }) => ({ 
+              headerTitle: route.params.name,
               headerStyle: {
-                backgroundColor: '#007acc',
+                backgroundColor: '#541a6b',
               },
               headerRight: props =><LogoTitle {...props} />,
               headerTintColor: '#fff',
               headerTitleStyle: {
                 fontWeight: 'bold',
-              } }}/>
+              } })}/>
           </Stack.Navigator>
     );
   }
