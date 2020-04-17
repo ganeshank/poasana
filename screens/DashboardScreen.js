@@ -12,35 +12,46 @@ export default function DashboardScreen({navigation}){
     const fromLogin= useSelector(state => state.fromLogin);
 
     React.useEffect(()=> {
+        let isCancelled = false;
         const getAllRegUser = async () => {
             try {
-                setSpinnerEnabled(true);
-                let username = await AsyncStorage.getItem("userData");
-                fetch('https://poasana.000webhostapp.com/api/getallusers.php?user='+username+'&socket='+socket)
-                .then(response => response.json())
-                .then(data => {
-                    //console.log("33333");
-                    const users1 = Object.values(data);
-                    dispatch({type: "server/join",data: {allUsers: data, username: username}});
-                    // dispatch({type: 'users_online', data: users1 });
-                    // dispatch({type: 'self_user', data: data[username] });
-                    //dispatch({type: 'login_flag', data: false });
-                    setSpinnerEnabled(false);
-                })
-                .catch(e => {
-                    setSpinnerEnabled(false);
-                    console.log("error", e);
-                })
+                if (!isCancelled) {
+                    setSpinnerEnabled(true);
+                    let username = await AsyncStorage.getItem("userData");
+                    fetch('https://poasana.000webhostapp.com/api/getallusers.php?user='+username+'&socket='+socket)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log("data-",data);
+                        console.log("username-",username);
+                        const users1 = Object.values(data);
+                        dispatch({type: "server/join",data: {allUsers: data, username: username}});
+                        // dispatch({type: 'users_online', data: users1 });
+                        // dispatch({type: 'self_user', data: data[username] });
+                        //dispatch({type: 'login_flag', data: false });
+                        setSpinnerEnabled(false);
+                    })
+                    .catch(e => {
+                        setSpinnerEnabled(false);
+                        console.log("error", e);
+                    })
+                }
             }
             catch(ex){
                 setSpinnerEnabled(false);
-                console.log("error", ex);
+                if (!isCancelled) {
+                    console.log("eeee-",ex);
+                    throw e;
+                }
             }
         };
 
         if(socket!=null && fromLogin){
             getAllRegUser();
         }
+
+        return () => {
+            isCancelled = true;
+          };
     }, [socket,fromLogin]);
     
     return (
@@ -82,7 +93,7 @@ export default function DashboardScreen({navigation}){
                         }
                         //
                     }}>
-                    <Text style={{backgroundColor: '#fff', color:'#541a6b',fontSize:20, fontWeight:'bold', width: 200, height: 100, textAlign: 'center', textAlignVertical: 'center', margin: 5}}>
+                    <Text style={{backgroundColor: '#fff',borderRadius:20, color:'#541a6b',fontSize:20, fontWeight:'bold', width: 200, height: 100, textAlign: 'center', textAlignVertical: 'center', margin: 5}}>
                         Private Window
                     </Text>
                 </TouchableHighlight>
@@ -109,7 +120,7 @@ export default function DashboardScreen({navigation}){
                         }
                         
                     }}>
-                    <Text style={{backgroundColor: '#FFF',color:'#541a6b', fontSize:20, fontWeight:'bold', width: 200, height: 100, textAlign: 'center', textAlignVertical: 'center', margin: 5}}>
+                    <Text style={{backgroundColor: '#FFF',borderRadius:20,color:'#541a6b', fontSize:20, fontWeight:'bold', width: 200, height: 100, textAlign: 'center', textAlignVertical: 'center', margin: 5}}>
                     Public Window
                     </Text>
                 </TouchableHighlight>

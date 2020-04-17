@@ -38,7 +38,7 @@ export default function ChatScreen({route}) {
                             data: {
                                 message: messages[0], 
                                 conversationId: userId,
-                                conversationName: selfUser.userId
+                                senderId: selfUser.userId
                             }
                         }
                     );
@@ -57,7 +57,7 @@ export default function ChatScreen({route}) {
                 }}
                 user={{
                 _id: selfUser.userId,
-                name: "Ganeshan"
+                name: selfUser.username
                 }}
             /> 
             

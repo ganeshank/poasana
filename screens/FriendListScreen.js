@@ -41,7 +41,7 @@ export default function FriendListScreen({navigation, route}) {
                                 source={require("../assets/offline.png")}
                                 />}
                                 <View style={avatarNameViewStyle}>
-                                    <Text style={{fontSize: 20
+                                    <Text style={{fontSize: 20, fontWeight: 'bold', color: '#541a6b'
                                     }}>{item.username}</Text>
                                 </View>
                             </View>
@@ -60,8 +60,8 @@ export default function FriendListScreen({navigation, route}) {
 
 const styles= StyleSheet.create({
     itemContainerStyle: {flex:1, flexDirection: "row", backgroundColor: "#E8E8E8",
-    borderWidth: 0.4},
-    avatarImageStyle: {width:60, height: 60, borderRadius: 10},
+     margin: 2, borderBottomWidth: 0.4, borderBottomColor: '#541a6b'},
+    avatarImageStyle: {width:60, height: 60, borderRadius: 10, marginBottom: 2},
     avatarNameViewStyle: {
         flex:1,
         justifyContent:"center",
