@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { View, Platform, KeyboardAvoidingView, TouchableOpacity, Icon, TextInput, Button } from 'react-native';
+import { View, Platform, KeyboardAvoidingView, TouchableOpacity, Image, TextInput, Button } from 'react-native';
 import { GiftedChat } from 'react-native-gifted-chat';
 import { useHeaderHeight } from '@react-navigation/stack';
 import { useDispatch, useSelector } from 'react-redux';
@@ -76,13 +76,16 @@ export default function ChatScreen({route}) {
                 name: selfUser.username
                 }}
                 renderInputToolbar={()=>(
-                    <View style={{ flexDirection:'row' }}>
-                    <Button title="upload" onPress={_pickImage}></Button>
+                    <View style={{ flexDirection:'row', borderColor: '#fff', borderWidth: 2 }}>
+                    <TouchableOpacity onPress={_pickImage}>
+                        <Image style={{width:45, height:45}} source={require("../assets/plus.png")}/>
+                    </TouchableOpacity>
                     <TextInput 
+                        style={{flex:1, borderColor:'gray'}}
                         placeholder="Write your message here...." 
                         onChangeText={msg => setMsg(msg)}
                         value={msg}/>
-                    <Button title="Press" onPress={()=>{
+                    <Button title="Send" onPress={()=>{
                         setSpinnerEnabled(true);
                         const val = {
                             _id: uuidv4(),
