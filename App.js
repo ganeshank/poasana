@@ -13,8 +13,8 @@ import io from 'socket.io-client';
 import FlashMessage from 'react-native-flash-message';
 
 //const socket = io("http://18.216.129.200:3001");
-const socket = io("http://192.168.43.58:3001");
-//const socket = io("http://3.135.64.36:3001");
+//const socket = io("http://192.168.43.58:3001");
+const socket = io("http://3.135.64.36:3001");
 const socketIoMiddleware = createSocketIoMiddleware(socket, "server/");
 
 // Listener from socket server.
