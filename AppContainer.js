@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import PublicChatScreen from './screens/PublicChatScreen';
 import PublicRoomScreen from './screens/PublicRoomScreen';
 import TestScreen from './screens/TestScreen';
+import DesignScreen from './screens/DesignScreen';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -25,10 +26,10 @@ export default function App({navigation}){
     
     <NavigationContainer>
       {isSignedIn==null?(
-        <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false}}>
+        <Stack.Navigator initialRouteName="Design" screenOptions={{headerShown: false}}>
           <Stack.Screen name="Login" component={LoginScreen} />
           <Stack.Screen name="Signup" component={SignupScreen} />
-          <Stack.Screen name="Test" component={TestScreen} />
+          <Stack.Screen name="Design" component={DesignScreen} />
         </Stack.Navigator>
       ):(
         <Drawer.Navigator initialRouteName="Home" >
